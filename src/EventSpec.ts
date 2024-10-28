@@ -85,13 +85,21 @@ export class EventSpec {
         }
      
         // **** YOUR CODE HERE ****
+        for (let i : number = 0; i < regionList.length; i++) {
+            if(regionList[i].name === this.regionName) {
+                this._region = regionList[i];
+                return;
+            }
+        }
 
         // we didn't match any region, that's ok for some forms that don't need a region
         if (this.evtType === 'nevermatch') return;
         if ((this.evtType === 'release_none' || this.evtType === 'any') && 
                                      this._regionName === "") {
+            this._region = undefined;
             return;
         } 
+        
         Err.emit(`Region '${this._regionName}'` + 
                                   ' in event specification does not match any region.');
     }

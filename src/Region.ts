@@ -91,10 +91,6 @@ export class Region {
 	protected _x : number;
     public get x() {return this._x;}
     public set x(v : number) {
-        if (!(this._x == v))
-        {
-            this._x = v
-        }
         // **** YOUR CODE HERE ****
         if(!(this._x === v)) {
             this._x = v;

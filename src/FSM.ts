@@ -182,14 +182,30 @@ export class FSM {
         // walk over all the transitions in all the states to get those bound
             
         // **** YOUR CODE HERE ****
+        for(const state of this.states) {
+            for(const transitions of state.transitions) {
+                transitions.bindTarget(this.states);
+                transitions.onEvent.bindRegion(this.regions);
+                for(const actions of transitions.actions) {
+                    actions.bindRegion(this.regions);
+                }
+            }
+        } 
 
         // start state is the first one
             
         // **** YOUR CODE HERE ****
+        if(!(this.states.length === 0)) {
+            this._currentState = this.states[0];
+        }
 
         // need to link all regions back to this object as their parent
             
         // **** YOUR CODE HERE ****
+
+        for(const region of this.regions) {
+            region.parent = this;
+        }
 
     }
     
@@ -216,6 +232,15 @@ export class FSM {
         if (!this.currentState) return;
            
         // **** YOUR CODE HERE ****
+        for(const transitions of this.currentState?.transitions) {
+            if(transitions.match(evtType, reg)) {
+                for(const actions of transitions.actions) {
+                    actions.execute(evtType, reg);
+                }
+                this._currentState = transitions.target;
+            }
+            return;
+        }
 
     }
       

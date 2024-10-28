@@ -102,16 +102,32 @@ export class FSM {
         // state, region names in event specs, and region names in actions.
         // walk over all the transitions in all the states to get those bound
         // **** YOUR CODE HERE ****
+        for (const state of this.states) {
+            for (const transitions of state.transitions) {
+                transitions.bindTarget(this.states);
+                transitions.onEvent.bindRegion(this.regions);
+                for (const actions of transitions.actions) {
+                    actions.bindRegion(this.regions);
+                }
+            }
+        }
         // start state is the first one
         // **** YOUR CODE HERE ****
+        if (!(this.states.length === 0)) {
+            this._currentState = this.states[0];
+        }
         // need to link all regions back to this object as their parent
         // **** YOUR CODE HERE ****
+        for (const region of this.regions) {
+            region.parent = this;
+        }
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
     // Reset the FSM to be in its start state.  Note: this does not reset
     // region images to their original states.
     reset() {
         // **** YOUR CODE HERE ****
+        this._currentState = this.startState;
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
     // Cause the FSM to act on the given event: represented by an event type (see 
@@ -121,10 +137,20 @@ export class FSM {
     // actions are executed, and the FSM moves to the indicated state).  At that point
     // the event is considered "consumed", and no additional transitions are considered.
     actOnEvent(evtType, reg) {
+        var _a;
         // if we never got the current state bound (maybe a bad json FSM?) bail out
         if (!this.currentState)
             return;
         // **** YOUR CODE HERE ****
+        for (const transitions of (_a = this.currentState) === null || _a === void 0 ? void 0 : _a.transitions) {
+            if (transitions.match(evtType, reg)) {
+                for (const actions of transitions.actions) {
+                    actions.execute(evtType, reg);
+                }
+                this._currentState = transitions.target;
+            }
+            return;
+        }
     }
     //-------------------------------------------------------------------
     // Debugging Support
