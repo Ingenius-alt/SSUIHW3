@@ -239,6 +239,7 @@ export class FSM {
                 }
                 this._currentState = transitions.target;
             }
+            console.log(this._currentState?.name)
             return;
         }
 

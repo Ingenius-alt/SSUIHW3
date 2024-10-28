@@ -34,6 +34,7 @@ export class Action {
         // **** YOUR CODE HERE ****
         switch (this._actType) {
             case "set_image":
+                console.log("SET IMAGE");
                 if (this.onRegion) {
                     this.onRegion.imageLoc = this.param;
                 }
@@ -47,8 +48,7 @@ export class Action {
                 console.log(this.param);
                 break;
             default: // print_event
-                console.log(this.param);
-                console.log(evtType);
+                console.log(this.param + evtType + "(" + (evtReg === null || evtReg === void 0 ? void 0 : evtReg.name) + ")");
                 break;
         }
     }
