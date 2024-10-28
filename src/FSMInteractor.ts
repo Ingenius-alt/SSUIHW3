@@ -45,6 +45,7 @@ export class FSMInteractor {
         this._x = x; this._y = y;
         this._parent = parent;
         if (fsm) fsm.parent = this;
+        this._visited = []
     }
 
     //-------------------------------------------------------------------
@@ -56,8 +57,13 @@ export class FSMInteractor {
     protected _x : number;
     public get x() {return this._x;}
     public set x(v : number) {
-          
+
         // **** YOUR CODE HERE ****
+        if(!(this._x === v))
+        {
+            this._x = v;
+            this.damage();
+        }
     }
 
     // Y position (top) of this object within the parent Root object (and containing 
@@ -67,6 +73,11 @@ export class FSMInteractor {
     public set y(v : number) {
             
         // **** YOUR CODE HERE ****
+        if(!(this._y === v))
+            {
+                this._y = v;
+                this.damage();
+            }
     }
 
     // Position treated as a single value
@@ -91,6 +102,12 @@ export class FSMInteractor {
     public set parent(v : Root | undefined) {
             
         // **** YOUR CODE HERE ****
+        if(!(this._parent === v))
+        {
+            this.damage();
+            this._parent = v;
+            this.damage();
+        }
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
@@ -111,6 +128,7 @@ export class FSMInteractor {
     public damage() {
            
         // **** YOUR CODE HERE ****
+        this.parent?.damage();
     }
     
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -124,6 +142,13 @@ export class FSMInteractor {
         if (!this.fsm) return;
 
         // **** YOUR CODE HERE ****
+        let region = this.fsm.regions;
+        for (let i : number = 0; i < region.length; i++) {
+            ctx.save();
+            ctx.translate(region[i].x,region[i].y);
+            region[i].draw(ctx,showDebugging);     
+            ctx.restore();  
+        }
     }   
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -143,7 +168,14 @@ export class FSMInteractor {
         if (!this.fsm) return pickList;
            
         // **** YOUR CODE HERE ****
-
+        let region = this.fsm.regions;
+        for(let i : number = 0; i < region.length; i++) {
+            if (region[i].pick(localX,localY))
+            {
+                pickList.push(region[i]);
+            }
+        }
+        pickList.reverse();
         return pickList;
     }
 
@@ -152,7 +184,48 @@ export class FSMInteractor {
         
         // **** YOUR CODE HERE ****   
         // You will need some persistent bookkeeping for dispatchRawEvent()
+    // This is an array that keeps track of the previous raw events 
+    // this is done by just tracking the regions involved in the previous raw 
+    // event
+    private _visited : Region[];
+    private get visited() {return this._visited;}
+    private set visited(v : Region[]) {
+        this._visited = v;
+    }
 
+    // This returns an array of all exit events 
+    private all_exit(v : Region[]) : Region[] {
+        let exits : Region[] = []
+        for(let i : number = 0; i < this.visited.length; i++) {
+            if(!v.includes(this.visited[i])){
+                exits.push(this.visited[i])
+            }
+        }
+        return exits;
+    }
+
+    // This returns all enter events
+    private all_enter(v : Region[]) : Region[] {
+        let enters : Region[] = []
+        for(let i : number = 0; i < v.length; i++) {
+            if(!this.visited.includes(v[i])){
+                enters.push(v[i])
+            }
+        }
+        return enters;
+    }
+
+    // This returns all move_inside events 
+    private all_move_inside(v : Region[]) : Region[] {
+        let move_insides : Region[] = []
+        for(let i : number = 0; i < v.length; i++) {
+            if(this.visited.includes(v[i])){
+                move_insides.push(v[i])
+            }
+        }
+        return move_insides;
+    }
+    
     // Dispatch the given "raw" event by translating it into a series of higher-level
     // events which are formulated in terms of the regions of our FSM.  "Raw" events 
     // are based on simple actions with the input device(s) -- currently just press and
@@ -177,6 +250,37 @@ export class FSMInteractor {
         if (this.fsm === undefined) return;
 
         // **** YOUR CODE HERE ****
+        let regions : Region[] = this.pick(localX,localY);
+
+        // All exit events
+        let exits : Region[] = this.all_exit(regions);
+        exits.forEach((element => this.fsm?.actOnEvent('exit', element)));
+
+        // All enter events
+        let enters: Region[] = this.all_enter(regions);
+        enters.forEach((element => this.fsm?.actOnEvent('enter', element)));
+
+        // Case on what to do based on the 'what' to do appropriate event
+        switch (what) {
+            case 'press':
+                regions.forEach(element => this.fsm?.actOnEvent('press', element));
+                break;
+        
+            case "move":
+                let move_insides : Region[] = this.all_move_inside(regions);
+                move_insides.forEach((element => this.fsm?.actOnEvent('move_inside', element)));
+                break;
+            default:
+                if(regions.length === 0) {
+                    this.fsm.actOnEvent('release_none');
+                }
+                else {
+                    regions.forEach((element => this.fsm?.actOnEvent('release', element)));
+                }
+                break;
+        }
+
+        this.visited = regions;
     }
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .

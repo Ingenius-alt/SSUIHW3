@@ -102,11 +102,13 @@ export class EventSpec {
     // by an event type (evtType) and an optional associated region (regn).  If 
     // our region is undefined and region name is "*", we will match to any region.
     public match(evtType : EventType, regn? : Region) : boolean {
-          
+        
         // **** YOUR CODE HERE ****
-
-        // **** Remove this: just here to get it to compile... ****
-        return false;
+        if(this.regionName === "*" && this.region === undefined)
+        {
+            return true;
+        }
+        return evtType === this.evtType && regn === this.region;
     }
     
     //-------------------------------------------------------------------

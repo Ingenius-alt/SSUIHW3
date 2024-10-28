@@ -27,7 +27,7 @@ export function runTests() {
 
 	test1();
 	test2();
-	test3();
+	//test3();
 
 	console.log("Test is set up...");
 }

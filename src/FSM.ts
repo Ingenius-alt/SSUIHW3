@@ -167,7 +167,7 @@ export class FSM {
     public damage() : void {
             
         // **** YOUR CODE HERE ****
-
+        this.parent?.damage();
     }
 
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -200,6 +200,7 @@ export class FSM {
     public reset() {
             
         // **** YOUR CODE HERE ****
+        this._currentState = this.startState;
     }
     
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
