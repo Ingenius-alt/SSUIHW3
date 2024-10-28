@@ -73,7 +73,8 @@ export class Root {
         this._batchingDamage = true;
         try {
 
-        // **** YOUR CODE HERE ****
+        for (let ch : number = 0; ch < this._children.length; ch++) {
+        }
 
         // currently, for ease of debugging, we let exceptions propogate out from this 
         // redraw (and typically all the out of our code).  this will basically shut 
