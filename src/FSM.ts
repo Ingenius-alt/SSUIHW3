@@ -230,7 +230,7 @@ export class FSM {
     public actOnEvent(evtType : EventType, reg? : Region) {
         // if we never got the current state bound (maybe a bad json FSM?) bail out
         if (!this.currentState) return;
-           
+        let count = 0;
         // **** YOUR CODE HERE ****
         for(const transitions of this.currentState?.transitions) {
             if(transitions.match(evtType, reg)) {
@@ -238,9 +238,8 @@ export class FSM {
                     actions.execute(evtType, reg);
                 }
                 this._currentState = transitions.target;
+                return;
             }
-            console.log(this._currentState?.name)
-            return;
         }
 
     }

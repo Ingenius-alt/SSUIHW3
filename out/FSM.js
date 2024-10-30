@@ -137,10 +137,11 @@ export class FSM {
     // actions are executed, and the FSM moves to the indicated state).  At that point
     // the event is considered "consumed", and no additional transitions are considered.
     actOnEvent(evtType, reg) {
-        var _a, _b;
+        var _a;
         // if we never got the current state bound (maybe a bad json FSM?) bail out
         if (!this.currentState)
             return;
+        let count = 0;
         // **** YOUR CODE HERE ****
         for (const transitions of (_a = this.currentState) === null || _a === void 0 ? void 0 : _a.transitions) {
             if (transitions.match(evtType, reg)) {
@@ -148,9 +149,8 @@ export class FSM {
                     actions.execute(evtType, reg);
                 }
                 this._currentState = transitions.target;
+                return;
             }
-            console.log((_b = this._currentState) === null || _b === void 0 ? void 0 : _b.name);
-            return;
         }
     }
     //-------------------------------------------------------------------

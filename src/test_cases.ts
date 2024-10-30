@@ -25,8 +25,8 @@ export function runTests() {
 	root = new Root("FSM-main-canvas");
 	root.doDebugOutput = true;
 
-	//test1();
-	//test2();
+	test1();
+	test2();
 	test3();
 
 	console.log("Test is set up...");
