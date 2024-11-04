@@ -1,0 +1,204 @@
+{
+    "regions": [
+        { "name": "sysiphus_base", "x": 0, "y": 0, "imageLoc": "./images/S_0.png"},
+
+        { "name": "base_mount", "x": 30, "y": 263, "w":80, "h":90},
+        { "name": "mount_1", "x": 110, "y": 210, "w":82, "h":90},
+        { "name": "mount_2", "x": 192, "y": 162, "w":84, "h":90},
+        { "name": "mount_3", "x": 276, "y": 114, "w":82, "h":90},
+        { "name": "mount_4", "x": 358, "y": 62, "w":82, "h":90},
+        { "name": "mount_5", "x": 440, "y": 10, "w":86, "h":90},
+        { "name": "top_mount", "x": 526, "y": 0, "w":86, "h":68}
+    ], 
+    "states":[
+        { "name" : "Inactive",
+          "transitions" : [
+                { "onEvent" : {"evtType" : "press", "region" : "base_mount"},
+                  "target" : "Base",
+                  "actions": [
+                    {"act": "print", "param": "== Active =="}]
+                }
+            ]
+        },
+
+        { "name" : "Base",
+          "transitions" : [
+            
+                { "onEvent" : {"evtType" : "move_inside", "region" : "mount_1"},
+                  "target" : "Step_1",
+                  "actions": [
+                    {"act": "clear_image", "region": "sysiphus_base"},
+                    {"act": "set_image", "region": "sysiphus_base", "param": "./images/S_1.png"}]
+                },
+
+                { "onEvent" : {"evtType" : "release", "region" : "sysiphus_base"},
+                  "target" : "release_Base",
+                  "actions": [
+                    {"act": "print", "param": "RELEASE"}]
+                }
+            ]
+        },
+
+        { "name" : "release_Base",
+          "transitions" : [
+                { "onEvent" : {"evtType" : "any", "region" : "*"},
+                  "target" : "Inactive",
+                  "actions": [
+                    {"act": "clear_image", "region": "sysiphus_base"},
+                    {"act": "set_image", "region": "sysiphus_base", "param": "./images/S_0.png"}]
+                }
+            ]
+        },
+
+        { "name" : "Step_1",
+          "transitions" : [
+                { "onEvent" : {"evtType" : "move_inside", "region" : "mount_2"},
+                  "target" : "Step_2",
+                  "actions": [
+                    {"act": "clear_image", "region": "sysiphus_base"},
+                    {"act": "set_image", "region": "sysiphus_base", "param": "./images/S_2.png"}]
+                },
+
+                { "onEvent" : {"evtType" : "release", "region" : "sysiphus_base"},
+                  "target" : "release_Step_1",
+                  "actions": [
+                    {"act": "print", "param": "RELEASE"}]
+                }
+            ]
+        },
+
+        { "name" : "release_Step_1",
+          "transitions" : [
+                { "onEvent" : {"evtType" : "any", "region" : "*"},
+                  "target" : "Inactive",
+                  "actions": [
+                    {"act": "clear_image", "region": "sysiphus_base"},
+                    {"act": "set_image", "region": "sysiphus_base", "param": "./images/S_0.png"}]
+                }
+            ]
+        },
+
+        { "name" : "Step_2",
+          "transitions" : [
+                { "onEvent" : {"evtType" : "move_inside", "region" : "mount_3"},
+                  "target" : "Step_3",
+                  "actions": [
+                    {"act": "clear_image", "region": "sysiphus_base"},
+                    {"act": "set_image", "region": "sysiphus_base", "param": "./images/S_3.png"}]
+                },
+
+                { "onEvent" : {"evtType" : "release", "region" : "sysiphus_base"},
+                  "target" : "release_Step_2",
+                  "actions": [
+                    {"act": "print", "param": "RELEASE"}]
+                }
+            ]
+        },
+
+        { "name" : "release_Step_2",
+          "transitions" : [
+                { "onEvent" : {"evtType" : "any", "region" : "*"},
+                  "target" : "release_Step_1",
+                  "actions": [
+                    {"act": "clear_image", "region": "sysiphus_base"},
+                    {"act": "set_image", "region": "sysiphus_base", "param": "./images/S_1.png"}]
+                }
+            ]
+        },
+
+        { "name" : "Step_3",
+          "transitions" : [
+                { "onEvent" : {"evtType" : "move_inside", "region" : "mount_4"},
+                  "target" : "Step_4",
+                  "actions": [
+                    {"act": "clear_image", "region": "sysiphus_base"},
+                    {"act": "set_image", "region": "sysiphus_base", "param": "./images/S_4.png"}]
+                },
+
+                { "onEvent" : {"evtType" : "release", "region" : "sysiphus_base"},
+                  "target" : "release_Step_3",
+                  "actions": [
+                    {"act": "print", "param": "RELEASE"}]
+                }
+            ]
+        },
+
+        { "name" : "release_Step_3",
+          "transitions" : [
+                { "onEvent" : {"evtType" : "any", "region" : "*"},
+                  "target" : "release_Step_2",
+                  "actions": [
+                    {"act": "clear_image", "region": "sysiphus_base"},
+                    {"act": "set_image", "region": "sysiphus_base", "param": "./images/S_2.png"}]
+                }
+            ]
+        },
+
+        { "name" : "Step_4",
+          "transitions" : [
+                { "onEvent" : {"evtType" : "move_inside", "region" : "mount_5"},
+                  "target" : "Step_5",
+                  "actions": [
+                    {"act": "clear_image", "region": "sysiphus_base"},
+                    {"act": "set_image", "region": "sysiphus_base", "param": "./images/S_5.png"}]
+                },
+
+                { "onEvent" : {"evtType" : "release", "region" : "sysiphus_base"},
+                  "target" : "release_Step_4",
+                  "actions": [
+                    {"act": "print", "param": "RELEASE"}]
+                }
+            ]
+        },
+
+        { "name" : "release_Step_4",
+          "transitions" : [
+                { "onEvent" : {"evtType" : "any", "region" : "*"},
+                  "target" : "release_Step_3",
+                  "actions": [
+                    {"act": "clear_image", "region": "sysiphus_base"},
+                    {"act": "set_image", "region": "sysiphus_base", "param": "./images/S_4.png"}]
+                }
+            ]
+        },
+
+        { "name" : "Step_5",
+          "transitions" : [
+                { "onEvent" : {"evtType" : "move_inside", "region" : "top_mount"},
+                  "target" : "Top",
+                  "actions": [
+                    {"act": "clear_image", "region": "sysiphus_base"},
+                    {"act": "set_image", "region": "sysiphus_base", "param": "./images/S_6.png"}]
+                },
+
+                { "onEvent" : {"evtType" : "release", "region" : "sysiphus_base"},
+                  "target" : "release_Step_5",
+                  "actions": [
+                    {"act": "print", "param": "RELEASE"}]
+                }
+            ]
+        },
+
+        { "name" : "release_Step_5",
+          "transitions" : [
+                { "onEvent" : {"evtType" : "any", "region" : "*"},
+                  "target" : "release_Step_4",
+                  "actions": [
+                    {"act": "clear_image", "region": "sysiphus_base"},
+                    {"act": "set_image", "region": "sysiphus_base", "param": "./images/S_5.png"}]
+                }
+            ]
+        },
+
+        { "name" : "Top",
+          "transitions" : [
+                { "onEvent" : {"evtType" : "release", "region" : "sysiphus_base"},
+                  "target" : "release_Step_5",
+                  "actions": [
+                    {"act": "print", "param": "RELEASE"}]
+                }
+            ]
+        }
+
+    ]
+}
