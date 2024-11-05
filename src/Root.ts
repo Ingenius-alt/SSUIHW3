@@ -72,7 +72,6 @@ export class Root {
         const saveBatching = this._batchingDamage;
         this._batchingDamage = true;
         try {
-        // **** YOUR CODE HERE ****
         //Clear canvas
         let ctx = this.canvasContext;
         ctx.clearRect(0,0,this.owningCanvas.width,this.owningCanvas.height);

@@ -25,10 +25,10 @@ export function runTests() {
 	root = new Root("FSM-main-canvas");
 	root.doDebugOutput = true;
 
-	test1();
-	test2();
-	test3();
-	//testCustom();
+	//test1();
+	//test2();
+	//test3();
+	testCustom();
 
 	console.log("Test is set up...");
 }
@@ -79,7 +79,7 @@ function test3() {
 //-------------------------------------------------------------------
 
 function testCustom() {
-	let fsmInt = new FSMInteractor(undefined, 0,350);
+	let fsmInt = new FSMInteractor(undefined, 0,300);
 	root.addChild(fsmInt);
 	fsmInt.startLoadFromJson("./fsm_json/custom_interactor.json");
 }

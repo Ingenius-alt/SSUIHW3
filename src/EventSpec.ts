@@ -84,7 +84,9 @@ export class EventSpec {
             return;
         }
      
-        // **** YOUR CODE HERE ****
+        // We go through the regionList and see if our regions' name
+        // matches any in regionList. We then change our region
+        // to that which we match to 
         for (let i : number = 0; i < regionList.length; i++) {
             if(regionList[i].name === this.regionName) {
                 this._region = regionList[i];
@@ -111,10 +113,16 @@ export class EventSpec {
     // our region is undefined and region name is "*", we will match to any region.
     public match(evtType : EventType, regn? : Region) : boolean {
         
-        // **** YOUR CODE HERE ****
+        // We check if we match our event and region to that of the 
+        // event and region we are given. If our region is undefined or
+        // * we return true. We also check if we have a release_none
+        // event since we do not care for the region we have
         if(this.regionName === "*" && this.region === undefined)
         {
             return true;
+        }
+        if(this.evtType === 'release_none'){
+            return evtType === this.evtType;
         }
         return evtType === this.evtType && regn === this.region;
     }

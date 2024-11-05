@@ -57,8 +57,6 @@ export class FSMInteractor {
     protected _x : number;
     public get x() {return this._x;}
     public set x(v : number) {
-
-        // **** YOUR CODE HERE ****
         if(!(this._x === v))
         {
             this._x = v;
@@ -71,8 +69,6 @@ export class FSMInteractor {
     protected _y : number;
     public get y() {return this._y;}
     public set y(v : number) {
-            
-        // **** YOUR CODE HERE ****
         if(!(this._y === v))
             {
                 this._y = v;
@@ -100,8 +96,6 @@ export class FSMInteractor {
     protected _parent : Root | undefined;
     public get parent() {return this._parent;}
     public set parent(v : Root | undefined) {
-            
-        // **** YOUR CODE HERE ****
         if(!(this._parent === v))
         {
             this.damage();
@@ -126,8 +120,6 @@ export class FSMInteractor {
     // regions, etc.  This method passes the damage notification to its hosting Root
     // object which coordinates eventual redraw by calling this object's draw() method.
     public damage() {
-           
-        // **** YOUR CODE HERE ****
         this.parent?.damage();
     }
     
@@ -141,7 +133,8 @@ export class FSMInteractor {
         // bail out if we don't have an FSM to work from
         if (!this.fsm) return;
 
-        // **** YOUR CODE HERE ****
+        // We draw all the regions as well as making sure that we translate them
+        // correctly
         let region = this.fsm.regions;
         for (let i : number = 0; i < region.length; i++) {
             ctx.save();
@@ -167,7 +160,7 @@ export class FSMInteractor {
         // if we have no FSM, there is nothing to pick
         if (!this.fsm) return pickList;
            
-        // **** YOUR CODE HERE ****
+        // we give all regions that x and y will touch
         let region = this.fsm.regions;
         for(let i : number = 0; i < region.length; i++) {
             if (region[i].pick(localX,localY))
@@ -179,11 +172,6 @@ export class FSMInteractor {
         return pickList;
     }
 
-    //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-
-        
-        // **** YOUR CODE HERE ****   
-        // You will need some persistent bookkeeping for dispatchRawEvent()
     // This is an array that keeps track of the previous raw events 
     // this is done by just tracking the regions involved in the previous raw 
     // event
@@ -249,9 +237,8 @@ export class FSMInteractor {
         // if we have no FSM, there is nothing to dispatch to
         if (this.fsm === undefined) return;
 
-        // **** YOUR CODE HERE ****
+        // All region involved
         let regions : Region[] = this.pick(localX,localY);
-
         // All exit events
         let exits : Region[] = this.all_exit(regions);
         exits.forEach((element => this.fsm?.actOnEvent('exit', element)));

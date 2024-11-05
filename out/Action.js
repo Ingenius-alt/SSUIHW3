@@ -1,6 +1,6 @@
 import { Err } from "./Err.js";
 import { Check } from "./Check.js";
-const actionTypeStrings = ['set_image', 'clear_image', 'none', 'print', 'print_event'];
+const actionTypeStrings = ['set_image', 'clear_image', 'none', 'print', 'print_event', 'wait'];
 //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 export class Action {
     constructor(actType, regionName, param) {
@@ -31,12 +31,15 @@ export class Action {
     execute(evtType, evtReg) {
         if (this._actType === 'none')
             return;
-        // **** YOUR CODE HERE ****
+        // We see which action we have then procede to 
+        // execute that action 
         switch (this._actType) {
             case "set_image":
                 if (this.onRegion) {
                     this.onRegion.imageLoc = this.param;
                 }
+                break;
+            case "wait":
                 break;
             case "clear_image":
                 if (this.onRegion) {
@@ -55,7 +58,9 @@ export class Action {
     // Attempt to find the name listed for this region in the given list of regions
     // (from the whole FSM), assiging the Region object to this._onRegion if found.
     bindRegion(regionList) {
-        // **** YOUR CODE HERE ****
+        // We go through the regionList and see if our regions' name
+        // matches any in regionList. We then change our region
+        // to that which we match to 
         for (let i = 0; i < regionList.length; i++) {
             if (regionList[i].name === this.onRegionName) {
                 this._onRegion = regionList[i];
@@ -64,7 +69,7 @@ export class Action {
         }
         // ok to have no matching region for some actions
         if (this.actType === 'none' || this.actType === 'print' ||
-            this.actType === 'print_event') {
+            this.actType === 'print_event' || this.actType === 'wait') {
             this._onRegion = undefined;
             return;
         }

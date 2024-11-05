@@ -22,8 +22,8 @@ import { Check } from "./Check.js";
 //===================================================================
 
 // A type for the actions we support, along with correponding strings
-export type ActionType = 'set_image' |  'clear_image' | 'none' | 'print' | 'print_event';
-const actionTypeStrings = ['set_image',  'clear_image', 'none', 'print', 'print_event'];
+export type ActionType = 'set_image' |  'clear_image' | 'none' | 'print' | 'print_event' | 'wait';
+const actionTypeStrings = ['set_image',  'clear_image', 'none', 'print', 'print_event', 'wait'];
 
 // The type we are expecting to get back from decoding json for an Action
 export type Action_json = {act: ActionType, region: string, param: string};
@@ -83,13 +83,17 @@ export class Action {
     public execute(evtType : EventType, evtReg? : Region) { 
         if (this._actType === 'none') return;
         
-        // **** YOUR CODE HERE ****
+        // We see which action we have then procede to 
+        // execute that action 
         switch (this._actType) {
             case "set_image":
                 if(this.onRegion)
                 {
                     this.onRegion.imageLoc = this.param;
                 }
+                break;
+
+            case "wait":
                 break;
 
             case "clear_image":
@@ -115,7 +119,9 @@ export class Action {
     // (from the whole FSM), assiging the Region object to this._onRegion if found.
     public bindRegion(regionList : readonly Region[]) : void {
             
-        // **** YOUR CODE HERE ****
+        // We go through the regionList and see if our regions' name
+        // matches any in regionList. We then change our region
+        // to that which we match to 
         for (let i : number = 0; i < regionList.length; i++) {
             if(regionList[i].name === this.onRegionName) {
                 this._onRegion = regionList[i];
@@ -125,7 +131,7 @@ export class Action {
         
         // ok to have no matching region for some actions
         if (this.actType === 'none' || this.actType === 'print' || 
-                                       this.actType === 'print_event') {
+            this.actType === 'print_event' || this.actType === 'wait') {
             this._onRegion = undefined;
             return;
         }

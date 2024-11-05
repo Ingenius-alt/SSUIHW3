@@ -91,7 +91,6 @@ export class Region {
 	protected _x : number;
     public get x() {return this._x;}
     public set x(v : number) {
-        // **** YOUR CODE HERE ****
         if(!(this._x === v)) {
             this._x = v;
             this.damage();
@@ -104,8 +103,6 @@ export class Region {
 	protected _y : number;
     public get y() {return this._y;}
     public set y(v : number) {
-            
-        // **** YOUR CODE HERE ****
         if(!(this._y === v)) {
             this._y = v;
             this.damage();
@@ -120,8 +117,6 @@ export class Region {
 	protected _w : number;
     public get w() {return this._w;}
     public set w(v : number) {
-            
-        // **** YOUR CODE HERE ****
         if(!(this._w === v) && v >= 0) {
             this._w = v;
             this.damage();
@@ -136,8 +131,6 @@ export class Region {
 	protected _h : number;
     public get h() {return this._h;}
     public set h(v : number) {
-            
-        // **** YOUR CODE HERE ****
         if(!(this._h === v) && v >= 0) {
             this._h = v;
             this.damage();
@@ -171,7 +164,6 @@ export class Region {
     protected _parent : FSM | undefined;
     public get parent() {return this._parent;}
     public set parent(v : FSM | undefined) {
-        // **** YOUR CODE HERE ****
         if(!(v === this._parent)) {
             this.damage();
             this._parent = v;
@@ -239,7 +231,7 @@ export class Region {
     // coordinates of this object) should be considered "inside" or "over" this region.
     public pick(localX : number, localY : number) : boolean {
             
-        // **** YOUR CODE HERE ****
+        // we check in parent coords if we have been picked
         if(localX > this.x && localX < this.x + this.w 
             && localY > this.y && localY < this.y + this.h) {
             return true;
@@ -258,8 +250,6 @@ export class Region {
     public draw(ctx : CanvasRenderingContext2D, showDebugFrame : boolean = false) : void {
         // if we have a valid loaded image, draw it
         if (this.loaded && !this.loadError && this.image) {
-               
-            // **** YOUR CODE HERE ****
             ctx.drawImage(this.image, 0, 0);
 
         }
@@ -279,8 +269,6 @@ export class Region {
     // has changed (e.g., the image or position has changed).  This passes this image
     // notification to its parent FSM which eventually results in a redraw.
     public damage() {
-            
-        // **** YOUR CODE HERE ****
         this.parent?.damage();
     }
 

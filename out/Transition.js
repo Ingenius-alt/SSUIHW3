@@ -42,7 +42,6 @@ export class Transition {
     // by an event type and optional region; see EventSpec for details on available
     // event types and their meaning).
     match(evtType, regn) {
-        // **** YOUR CODE HERE ****
         return this.onEvent.match(evtType, regn);
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -51,7 +50,8 @@ export class Transition {
     // will remain undefined if the target name does not match any actual states in 
     // the FSM (in which case an error message will also be generted using Err.emit()).
     bindTarget(stateList) {
-        // **** YOUR CODE HERE ****
+        // We make sure that the target state of us is actually a state that exists in 
+        // stateList then we bind that target if we cannot we set our state to undefined
         for (let i = 0; i < stateList.length; i++) {
             if (stateList[i].name === this.targetName) {
                 this._target = stateList[i];

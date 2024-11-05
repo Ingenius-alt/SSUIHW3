@@ -89,7 +89,6 @@ export class FSM {
     // 
     damage() {
         var _a;
-        // **** YOUR CODE HERE ****
         (_a = this.parent) === null || _a === void 0 ? void 0 : _a.damage();
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -101,7 +100,8 @@ export class FSM {
         // names we need to look up / bind are found in transitions: in named target 
         // state, region names in event specs, and region names in actions.
         // walk over all the transitions in all the states to get those bound
-        // **** YOUR CODE HERE ****
+        // We bind the transitions to their respective targets and regions and our actions
+        // to their respective regions
         for (const state of this.states) {
             for (const transitions of state.transitions) {
                 transitions.bindTarget(this.states);
@@ -111,13 +111,11 @@ export class FSM {
                 }
             }
         }
-        // start state is the first one
-        // **** YOUR CODE HERE ****
+        // We then make sure the current state is the start state
         if (!(this.states.length === 0)) {
             this._currentState = this.states[0];
         }
         // need to link all regions back to this object as their parent
-        // **** YOUR CODE HERE ****
         for (const region of this.regions) {
             region.parent = this;
         }
@@ -126,7 +124,6 @@ export class FSM {
     // Reset the FSM to be in its start state.  Note: this does not reset
     // region images to their original states.
     reset() {
-        // **** YOUR CODE HERE ****
         this._currentState = this.startState;
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -141,14 +138,27 @@ export class FSM {
         // if we never got the current state bound (maybe a bad json FSM?) bail out
         if (!this.currentState)
             return;
-        let count = 0;
-        // **** YOUR CODE HERE ****
+        // We go through each of our transitions and check if the specific transition
+        // matches the event and region. If it does then we execute all the actions
+        // as well as changing to the state here we also have a delay if the first action
+        // is the wait action
         for (const transitions of (_a = this.currentState) === null || _a === void 0 ? void 0 : _a.transitions) {
             if (transitions.match(evtType, reg)) {
-                for (const actions of transitions.actions) {
-                    actions.execute(evtType, reg);
+                if (transitions.actions.length > 0 && transitions.actions[0].actType === 'wait') {
+                    setTimeout(function (f) {
+                        for (const actions of transitions.actions) {
+                            actions.execute(evtType, reg);
+                        }
+                        ;
+                        f._currentState = transitions.target;
+                    }, 100, this);
                 }
-                this._currentState = transitions.target;
+                else {
+                    for (const actions of transitions.actions) {
+                        actions.execute(evtType, reg);
+                    }
+                    this._currentState = transitions.target;
+                }
                 return;
             }
         }

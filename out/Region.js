@@ -47,7 +47,6 @@ export class Region {
     }
     get x() { return this._x; }
     set x(v) {
-        // **** YOUR CODE HERE ****
         if (!(this._x === v)) {
             this._x = v;
             this.damage();
@@ -55,7 +54,6 @@ export class Region {
     }
     get y() { return this._y; }
     set y(v) {
-        // **** YOUR CODE HERE ****
         if (!(this._y === v)) {
             this._y = v;
             this.damage();
@@ -63,7 +61,6 @@ export class Region {
     }
     get w() { return this._w; }
     set w(v) {
-        // **** YOUR CODE HERE ****
         if (!(this._w === v) && v >= 0) {
             this._w = v;
             this.damage();
@@ -71,7 +68,6 @@ export class Region {
     }
     get h() { return this._h; }
     set h(v) {
-        // **** YOUR CODE HERE ****
         if (!(this._h === v) && v >= 0) {
             this._h = v;
             this.damage();
@@ -92,7 +88,6 @@ export class Region {
     get name() { return this._name; }
     get parent() { return this._parent; }
     set parent(v) {
-        // **** YOUR CODE HERE ****
         if (!(v === this._parent)) {
             this.damage();
             this._parent = v;
@@ -124,7 +119,7 @@ export class Region {
     // Perform a pick test indicating whether the given position (expressed in the local
     // coordinates of this object) should be considered "inside" or "over" this region.
     pick(localX, localY) {
-        // **** YOUR CODE HERE ****
+        // we check in parent coords if we have been picked
         if (localX > this.x && localX < this.x + this.w
             && localY > this.y && localY < this.y + this.h) {
             return true;
@@ -141,7 +136,6 @@ export class Region {
     draw(ctx, showDebugFrame = false) {
         // if we have a valid loaded image, draw it
         if (this.loaded && !this.loadError && this.image) {
-            // **** YOUR CODE HERE ****
             ctx.drawImage(this.image, 0, 0);
         }
         //draw a frame indicating the (input) bounding box if requested
@@ -158,7 +152,6 @@ export class Region {
     // notification to its parent FSM which eventually results in a redraw.
     damage() {
         var _a;
-        // **** YOUR CODE HERE ****
         (_a = this.parent) === null || _a === void 0 ? void 0 : _a.damage();
     }
     //. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
